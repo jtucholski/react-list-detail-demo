@@ -4,7 +4,9 @@ type Person = {
   name: string;
   age: number;
 };
-export default function ProblematicPeople() {
+export default function BrokenListDetail() {
+
+  // State for the page
   const [people, setPeople] = useState<Person[]>([
     { name: 'John', age: 30 },
     { name: 'Jane', age: 32 },
@@ -12,8 +14,10 @@ export default function ProblematicPeople() {
     { name: 'Bob', age: 35 },
   ]);
 
+  // Selected person
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
 
+  // Left-side component
   const PeopleList = () => {
     return people.map((person, index) => {
       return (
@@ -23,12 +27,13 @@ export default function ProblematicPeople() {
           key={index}
           onClick={() => setSelectedPerson(person)}
         >
-          {person.name} is {person.age} years old
+          {person.name} ({person.age} years old)
         </div>
       );
     });
   };
 
+  // Right-side component
   const PeopleEditor = (props: {
     person: Person;
     updatePerson: (person: Person) => void;
@@ -65,7 +70,9 @@ export default function ProblematicPeople() {
     );
   };
 
+  // The function to call when person data changes
   const updatePerson = (updatedPerson: Person) => {
+    // Generate a new array of people with the one person updated
     const updatedPeople = people.map((p) =>
       p.name === updatedPerson.name ? updatedPerson : p
     );
@@ -75,7 +82,6 @@ export default function ProblematicPeople() {
 
   return (
     <>
-      <h1>Parent-Child Page</h1>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <div>
           <PeopleList />

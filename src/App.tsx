@@ -1,12 +1,19 @@
 import './App.css';
-import PersonFriends from './PersonFriends';
-// import ProblematicPeople from './ProblematicPeople';
+import ListDetail from './ListDetail';
+import BrokenListDetail from './BrokenListDetail';
 
 function App() {
   return (
     <>
-      <PersonFriends />
-      {/* <ProblematicPeople /> */}
+      <h1>List-Detail Demo</h1>
+      <details>
+        <summary>Broken List-Detail</summary>
+      <BrokenListDetail />
+      </details>
+      <details>
+        <summary>Working List-Detail</summary>
+        <ListDetail />
+      </details>
     </>
   );
 }

@@ -6,7 +6,9 @@ type Person = {
   friends: Person[];
 };
 
-export default function PersonFriends() {
+export default function ListDetail() {
+
+  // State for the page
   const [people, setPeople] = useState<Person[]>([
     {
       name: 'John',
@@ -42,6 +44,7 @@ export default function PersonFriends() {
     },
   ]);
 
+  // Index of the selected person
   const [selectedPersonIndex, setSelectedPersonIndex] = useState<number | null>(
     null
   );
@@ -77,7 +80,6 @@ export default function PersonFriends() {
 
   return (
     <>
-      <h1>Person-Friends Page</h1>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
         <PeopleList people={people} onPersonSelect={handlePersonSelect} />
         {selectedPersonIndex !== null && (
