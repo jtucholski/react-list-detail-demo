@@ -5,6 +5,7 @@ import BrokenListDetail from './BrokenListDetail';
 function App() {
   return (
     <>
+      <main style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <h1>List-Detail Demo</h1>
       <details>
         <summary>Broken List-Detail</summary>
@@ -14,6 +15,7 @@ function App() {
         <summary>Working List-Detail</summary>
         <ListDetail />
       </details>
+      </main>      
     </>
   );
 }

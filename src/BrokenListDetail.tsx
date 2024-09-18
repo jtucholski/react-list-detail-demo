@@ -74,7 +74,7 @@ export default function BrokenListDetail() {
   const updatePerson = (updatedPerson: Person) => {
     // Generate a new array of people with the one person updated
     const updatedPeople = people.map((p) =>
-      p.name === updatedPerson.name ? updatedPerson : p
+      p.name === selectedPerson!.name ? updatedPerson : p
     );
     setPeople(updatedPeople);
     setSelectedPerson(updatedPerson); // Update selected person with changes.
@@ -83,7 +83,7 @@ export default function BrokenListDetail() {
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <div>
+        <div style={{ width: '50%' }}>
           <PeopleList />
         </div>
         <div>
