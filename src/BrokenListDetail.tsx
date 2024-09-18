@@ -14,8 +14,8 @@ export default function BrokenListDetail() {
     { name: 'Bob', age: 35 },
   ]);
 
-  // Selected person
-  const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
+  // Selected person index
+  const [selectedPersonIndex, setSelectedPersonIndex] = useState<number | null>(null);
 
   // Left-side component
   const PeopleList = () => {
@@ -25,7 +25,7 @@ export default function BrokenListDetail() {
           className="card"
           style={{ border: '1px solid red' }}
           key={index}
-          onClick={() => setSelectedPerson(person)}
+          onClick={() => setSelectedPersonIndex(index)}
         >
           {person.name} ({person.age} years old)
         </div>
@@ -34,7 +34,7 @@ export default function BrokenListDetail() {
   };
 
   // Right-side component
-  const PeopleEditor = (props: {
+  const PersonEditor = (props: {
     person: Person;
     updatePerson: (person: Person) => void;
   }) => {
@@ -74,10 +74,9 @@ export default function BrokenListDetail() {
   const updatePerson = (updatedPerson: Person) => {
     // Generate a new array of people with the one person updated
     const updatedPeople = people.map((p) =>
-      p.name === selectedPerson!.name ? updatedPerson : p
+      p.name === people[selectedPersonIndex!].name ? updatedPerson : p
     );
     setPeople(updatedPeople);
-    setSelectedPerson(updatedPerson); // Update selected person with changes.
   };
 
   return (
@@ -87,8 +86,8 @@ export default function BrokenListDetail() {
           <PeopleList />
         </div>
         <div>
-          {selectedPerson != null ? (
-            <PeopleEditor person={selectedPerson} updatePerson={updatePerson} />
+          {selectedPersonIndex != null ? (
+            <PersonEditor person={people[selectedPersonIndex]} updatePerson={updatePerson} />
           ) : null}
         </div>
       </div>
