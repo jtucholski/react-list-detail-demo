@@ -11,19 +11,19 @@ export default function ListDetail() {
   const [people, setPeople] = useState<Person[]>([
     {
       name: 'John',
-      age: 30,    
+      age: 30,
     },
     {
       name: 'Jane',
-      age: 32,      
+      age: 32,
     },
     {
       name: 'Sally',
-      age: 28,      
+      age: 28,
     },
     {
       name: 'Bob',
-      age: 35,      
+      age: 35,
     },
   ]);
 
@@ -36,24 +36,27 @@ export default function ListDetail() {
     setSelectedPersonIndex(index);
   };
 
-  const handleChange = <T extends keyof Person>(field: T, value: Person[T]) => {
+  // The function to call when person data changes in PersonEditor
+  const updatePerson = (updatedPerson: Person) => {
     if (selectedPersonIndex !== null) {
       const updatedPeople = [...people];
-      updatedPeople[selectedPersonIndex][field] = value;
+      updatedPeople[selectedPersonIndex] = updatedPerson;
       setPeople(updatedPeople);
     }
-  };
+  }
 
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        <PeopleList people={people} onPersonSelect={handlePersonSelect} />
+        <div style={{ width: '50%' }}>
+          <PeopleList people={people} onPersonSelect={handlePersonSelect} />
+        </div>
         {selectedPersonIndex !== null && (
           <div>
             <PersonEditor
               person={people[selectedPersonIndex]}
-              onChange={handleChange}
-            />            
+              onChange={updatePerson}
+            />
           </div>
         )}
       </div>
@@ -83,7 +86,7 @@ const PeopleList = ({
         >
           <div>
             {person.name} ({person.age} years old)
-          </div>          
+          </div>
         </div>
       ))}
     </div>
@@ -95,20 +98,34 @@ const PersonEditor = ({
   onChange,
 }: {
   person: Person;
-  onChange: <T extends keyof Person>(field: T, value: Person[T]) => void;
+  onChange: (person: Person) => void;
 }) => {
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedPerson = { ...person, name: e.target.value };
+    onChange(updatedPerson);
+  };
+
+  const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedPerson = {
+      ...person,
+      age: parseInt(e.target.value),
+    } as Person;
+    onChange(updatedPerson);
+  };
+
   return (
     <div>
       <h2>Edit Person</h2>
       <input
         type="text"
         value={person.name}
-        onChange={(e) => onChange('name', e.target.value)}
+        onChange={handleNameChange}
       />
       <input
         type="number"
         value={person.age}
-        onChange={(e) => onChange('age', parseInt(e.target.value))}
+        onChange={handleAgeChange}
       />
     </div>
   );

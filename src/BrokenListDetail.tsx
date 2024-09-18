@@ -34,23 +34,25 @@ export default function BrokenListDetail() {
   };
 
   // Right-side component
-  const PersonEditor = (props: {
+  const PersonEditor = ({
+    person,
+    onChange,
+  }: {
     person: Person;
-    updatePerson: (person: Person) => void;
+    onChange: (person: Person) => void;
   }) => {
-    if (props.person == null) return null;
 
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const updatedPerson = { ...props.person, name: e.target.value };
-      props.updatePerson(updatedPerson);
+      const updatedPerson = { ...person, name: e.target.value };
+      onChange(updatedPerson);
     };
 
     const handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const updatedPerson = {
-        ...props.person,
+        ...person,
         age: parseInt(e.target.value),
       } as Person;
-      props.updatePerson(updatedPerson);
+      onChange(updatedPerson);
     };
 
     return (
@@ -58,12 +60,12 @@ export default function BrokenListDetail() {
         <h2>Edit Person</h2>
         <input
           type="text"
-          value={props.person.name}
+          value={person.name}
           onChange={handleNameChange}
         />
         <input
           type="number"
-          value={props.person.age}
+          value={person.age}
           onChange={handleAgeChange}
         />
       </div>
@@ -72,11 +74,11 @@ export default function BrokenListDetail() {
 
   // The function to call when person data changes
   const updatePerson = (updatedPerson: Person) => {
-    // Generate a new array of people with the one person updated
-    const updatedPeople = people.map((p) =>
-      p.name === people[selectedPersonIndex!].name ? updatedPerson : p
-    );
-    setPeople(updatedPeople);
+    if (selectedPersonIndex !== null) {
+      const updatedPeople = [...people];
+      updatedPeople[selectedPersonIndex] = updatedPerson;
+      setPeople(updatedPeople);
+    }
   };
 
   return (
@@ -85,11 +87,14 @@ export default function BrokenListDetail() {
         <div style={{ width: '50%' }}>
           <PeopleList />
         </div>
-        <div>
-          {selectedPersonIndex != null ? (
-            <PersonEditor person={people[selectedPersonIndex]} updatePerson={updatePerson} />
-          ) : null}
-        </div>
+        {selectedPersonIndex !== null && (
+          <div>
+            <PersonEditor
+              person={people[selectedPersonIndex]}
+              onChange={updatePerson}
+            />
+          </div>
+        )}
       </div>
     </>
   );
