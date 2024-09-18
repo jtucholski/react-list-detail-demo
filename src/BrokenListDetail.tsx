@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Person = {
   name: string;
@@ -42,8 +42,16 @@ export default function BrokenListDetail() {
     onChange: (person: Person) => void;
   }) => {
 
+    useEffect(() => {
+      console.log(`%cPerson editor for ${person.name} mounted.`, "background-color: lightyellow; color: black");
+      return () => {
+        console.log(`%cPerson editor for ${person.name} unmounted.`, "background-color: lightyellow; color: black");
+      }
+    }, [person]);
+
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const updatedPerson = { ...person, name: e.target.value };
+      console.log(`PersonEditor onChange triggered for ${updatedPerson.name}`);
       onChange(updatedPerson);
     };
 
@@ -52,6 +60,7 @@ export default function BrokenListDetail() {
         ...person,
         age: parseInt(e.target.value),
       } as Person;
+      console.log(`PersonEditor onChange triggered for ${updatedPerson.name}`);
       onChange(updatedPerson);
     };
 
@@ -75,6 +84,7 @@ export default function BrokenListDetail() {
   // The function to call when person data changes
   const updatePerson = (updatedPerson: Person) => {
     if (selectedPersonIndex !== null) {
+      console.log(`BrokenListDetail updating state for ${updatedPerson.name}`);
       const updatedPeople = [...people];
       updatedPeople[selectedPersonIndex] = updatedPerson;
       setPeople(updatedPeople);
@@ -90,6 +100,7 @@ export default function BrokenListDetail() {
         {selectedPersonIndex !== null && (
           <div>
             <PersonEditor
+              key={selectedPersonIndex}
               person={people[selectedPersonIndex]}
               onChange={updatePerson}
             />
