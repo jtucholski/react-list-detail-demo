@@ -9,22 +9,10 @@ export default function ListDetail() {
 
   // State for the page
   const [people, setPeople] = useState<Person[]>([
-    {
-      name: 'John',
-      age: 30,
-    },
-    {
-      name: 'Jane',
-      age: 32,
-    },
-    {
-      name: 'Sally',
-      age: 28,
-    },
-    {
-      name: 'Bob',
-      age: 35,
-    },
+    { name: 'John', age: 30 },
+    { name: 'Jane', age: 32 },
+    { name: 'Sally', age: 28 },
+    { name: 'Bob', age: 35 },
   ]);
 
   // Selected person index
